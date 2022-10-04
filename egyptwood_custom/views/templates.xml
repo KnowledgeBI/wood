@@ -1,0 +1,10 @@
+<odoo>
+    <data>
+        <record id="sequence_forin" model="ir.sequence">
+            <field name="name">forin</field>
+            <field name="code">forin.purchase</field>
+            <field name="prefix">FOR-</field>
+            <field name="padding">3</field>
+        </record>
+    </data>
+</odoo>

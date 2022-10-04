@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_crm_lead_products,crm.lead.products,model_crm_lead_products,,1,1,1,1
+access_forin_purchase,forin.purchase,model_forin_purchase,,1,1,1,1
+access_forin_purchase_lines,forin.purchase.lines,model_forin_purchase_lines,,1,1,1,1

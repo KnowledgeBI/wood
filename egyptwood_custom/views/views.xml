@@ -1,0 +1,147 @@
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="crm_lead_products" model="ir.ui.view">
+            <field name="name">crm.lead.products</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//notebook" position="inside">
+                    <page name="products" string="Products" attrs="{'invisible': [('type', '!=', 'opportunity')]}">
+                        <field name="crm_products_ids" widget="section_and_note_one2many" mode="tree">
+                            <tree string="Sales Order Lines" editable="bottom">
+                                <control>
+                                    <create name="add_product_control" string="Add a product"/>
+                                    <create name="add_section_control" string="Add a section"
+                                            context="{'default_display_type': 'line_section'}"/>
+                                    <create name="add_note_control" string="Add a note"
+                                            context="{'default_display_type': 'line_note'}"/>
+                                </control>
+                                <field name="product_id"/>
+                                <field name="product_code"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="purchase_order_forin" model="ir.ui.view">
+            <field name="name">purchase.order.forin</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="for_in"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="stock_picking_checks" model="ir.ui.view">
+            <field name="name">stock.picking.checks</field>
+            <field name="model">stock.picking.type</field>
+            <field name="inherit_id" ref="stock.view_picking_type_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='show_operations']" position="after">
+                    <field name="is_transients"/>
+                    <field name="is_senders"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="forin_purchase_form" model="ir.ui.view">
+            <field name="name">foreign purchase form</field>
+            <field name="model">forin.purchase</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button name="state_onway" type="object" string="ONWAY"
+                                attrs="{'invisible': [('state', '!=', 'production')]}"/>
+                        <button name="state_inport" type="object" string="ON WAY"
+                                attrs="{'invisible': [('state', '!=', 'atport')]}"/>
+                        <button name="state_egyport" type="object" string="EGYPT PORT"
+                                attrs="{'invisible': [('state', '!=', 'onway')]}"/>
+                        <button name="state_delivered" type="object" string="Delivered"
+                                attrs="{'invisible': [('state', '!=', 'egyport')]}"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" type="object" name="get_picking"
+                                    icon="fa-truck">
+                                <field string="Pickings" name="picking_count" widget="statinfo"/>
+                            </button>
+                            <button class="oe_stat_button" type="object" name="get_purchase"
+                                    icon="fa-list">
+                                <field string="Purchase" name="purchase_count" widget="statinfo"/>
+                            </button>
+                            <button class="oe_stat_button" type="object" name="get_account"
+                                    icon="fa-book">
+                                <field string="Invoices" name="account_count" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" required="1" placeholder="Name..."/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="partner_id"  attrs="{'readonly': [('state', '!=', 'production')]}"/>
+                                <field name="currency_id"  attrs="{'readonly': [('state', '!=', 'production')]}"/>
+                            </group>
+                            <group>
+                                <field name="date_planned"  attrs="{'readonly': [('state', '!=', 'production')]}"/>
+                                <field name="picking_type_finish_id"  attrs="{'readonly': [('state', '!=', 'production')]}"/>
+                                <field name="picking_type_sender_id"  attrs="{'readonly': [('state', '!=', 'production')]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Products" name="lines">
+                                <field name="forin_lines_ids"  attrs="{'readonly': [('state', '!=', 'production')]}">
+                                    <tree editable="bottom">
+                                        <field name="product_id"/>
+                                        <field name="product_qty"/>
+                                        <field name="price_unit"/>
+                                        <field name="price_subtotal"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="forin_purchase_action" model="ir.actions.act_window">
+            <field name="name">foreign purchase action</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">forin.purchase</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Create New Record
+                </p>
+            </field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="forin_purchase_action_menu" name="Foreign" parent="purchase.menu_procurement_management"
+                  action="forin_purchase_action" sequence="0"/>
+
+    </data>
+</odoo>
