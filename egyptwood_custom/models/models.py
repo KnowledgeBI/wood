@@ -123,6 +123,7 @@ class ForinPurchase(models.Model):
                 'partner_id': self.partner_id.id,
                 'currency_id': self.currency_id.id,
                 'invoice_date': self.date_planned.date(),
+                'move_type':  'in_invoice',
             })
             for line in self.forin_lines_ids:
                 stock_obj.update({'move_ids_without_package': [(0, 0, {'name': line.product_id.name,
