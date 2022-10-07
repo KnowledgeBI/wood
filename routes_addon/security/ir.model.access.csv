@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+sale_route_id_user,sale_route_name,model_sale_route,group_sale_route_user,1,1,1,0
+sale_route_id_manger,sale_route_name,model_sale_route,group_sale_route_admin,1,1,1,1
+route_line_id_user,route_line_name,model_route_line,group_sale_route_user,1,1,1,0
+route_line_id_manger,route_line_name,model_route_line,group_sale_route_admin,1,1,1,1
