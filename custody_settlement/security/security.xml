@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<odoo>
+    <data>
+        <record model="ir.module.category" id="module_category_custody_settlement">
+            <field name="name">Custody Settlement</field>
+        </record>
+        <record id="group_custody_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="custody_settlement.module_category_custody_settlement"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user')),(4, ref('account.group_account_user'))]"/>
+        </record>
+        <record id="group_custody_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="custody_settlement.module_category_custody_settlement"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user')),(4, ref('account.group_account_user'))]"/>
+        </record>
+        <record id="access_own_settlements" model="ir.rule">
+            <field name="name">Access Own Settlements</field>
+            <field ref="model_account_move" name="model_id"/>
+            <field name="domain_force">[('partner_id','=',user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('custody_settlement.group_custody_user'))]"/>
+        </record>
+
+
+
+    </data>
+</odoo>

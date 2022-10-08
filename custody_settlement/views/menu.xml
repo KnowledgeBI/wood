@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<data>
+        <record id="account.action_move_in_invoice_type" model="ir.actions.act_window">
+            <field name="domain">[('move_type', '=', 'in_invoice'),('custody_settlement','=',False)]</field>
+        </record>
+         <record id="action_move_in_invoice_settlement" model="ir.actions.act_window">
+            <field name="name">Custody Settlements</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_id" ref="account.view_invoice_tree"/>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="domain">[('move_type', '=', 'in_invoice'),('custody_settlement','=',True)]</field>
+            <field name="context">{'search_default_approval_levels':1,'default_move_type': 'in_invoice','default_custody_settlement': True,'form_view_ref':'custody_settlement.view_move_form'}</field>
+        </record>
+
+<!--         <menuitem-->
+<!--            id="menu_action_custody_settlement"-->
+<!--            action="action_move_in_invoice_settlement"-->
+<!--            parent="account.menu_finance_payables"-->
+<!--            sequence="2"/>-->
+        <menuitem
+            id="menu_action_custody_settlement_root"
+            name="Custody Settlements"
+            web_icon="custody_settlement,static/description/custody.png"
+            groups="custody_settlement.group_custody_manager,custody_settlement.group_custody_user"
+            sequence="75"/>
+        <menuitem
+            id="menu_action_custody_settlement_main"
+            name="Custody Settlements"
+            action="action_move_in_invoice_settlement"
+            groups="custody_settlement.group_custody_manager,custody_settlement.group_custody_user"
+            parent="custody_settlement.menu_action_custody_settlement_root"
+            sequence="10"/>
+
+        <menuitem id="assign_employee_pos_menu"
+                  name="Assign Employee Pos"
+                  action="custody_settlement.assign_employee_pos_action"
+                  parent="custody_settlement.menu_action_custody_settlement_root"
+                  groups="custody_settlement.group_custody_manager,custody_settlement.group_custody_user"
+                  sequence="20"/>
+
+    </data>
+</odoo>

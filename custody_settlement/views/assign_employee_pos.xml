@@ -1,0 +1,26 @@
+<data>
+    <record id="assign_employee_pos_tree" model="ir.ui.view">
+        <field name="name">assign.employee.pos.tree</field>
+        <field name="model">assign.employee.pos</field>
+        <!--<field name="field_parent">children_ids if_want_to_add_Childs</field>-->
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="employee_id" attrs="{'readonly':[('is_assigned','=',True)]}"/>
+                <field name="pos_config_id" attrs="{'readonly':[('is_assigned','=',True)]}"/>
+                <field name="is_assigned" invisible="1"/>
+                <button name="action_assign_employee_to_pos"
+                        string="Assign Employee To Pos" type="object"
+                        confirm="Are You Sure That You Want Assign Employee To This Pos"
+                        attrs="{'invisible':[('is_assigned','=',True)]}"
+                        class="oe_highlight"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="assign_employee_pos_action" model="ir.actions.act_window">
+        <field name="name">Assign Employee Pos</field>
+        <field name="res_model">assign.employee.pos</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+</data>
