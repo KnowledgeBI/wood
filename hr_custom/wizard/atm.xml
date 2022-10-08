@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="employee_atm_view_from" model="ir.ui.view">
+            <field name="name">employee.atm.form</field>
+            <field name="model">employee.atm</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <div class="text-danger">
+                            Please Enter Employee ATM Code
+                        </div>
+                        <group>
+                            <field name="code"/>
+                            <field name="employee_id" invisible="1"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Confirm" name="action_confirm" class="btn-primary" type="object"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

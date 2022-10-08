@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record id="group_employee_document_expiry_reminder" model="res.groups">
+            <field name="name">Employee Document Expiry Reminder</field>
+        </record>
+
+        <record id="group_restrict_employee_view" model="res.groups">
+            <field name="name">Restrict Employee View</field>
+        </record>
+
+        <record id="group_restrict_work_number" model="res.groups">
+            <field name="name">Restrict Employee Work Number</field>
+        </record>
+
+        <record id="group_restrict_employee_document" model="res.groups">
+            <field name="name">Restrict Employee Document</field>
+        </record>
+
+    </data>
+</odoo>

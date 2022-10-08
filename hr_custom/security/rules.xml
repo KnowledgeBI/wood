@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="hr_employee_rule" model="ir.rule">
+            <field name="name">Employee By Company</field>
+            <field ref="model_hr_employee" name="model_id"/>
+            <field name="domain_force">['|',('company_id', '=',False),('company_id', '=',user.company_id.id)]</field>
+            <field name="groups" eval="[(4, ref('hr_custom.group_restrict_employee_view'))]"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="work_number_rule" model="ir.rule">
+            <field name="name">Work Number By Company</field>
+            <field ref="model_hr_employee" name="model_id"/>
+            <field name="domain_force">['|',('company_id', '=',False),('company_id', '=',user.company_id.id)]</field>
+            <field name="groups" eval="[(4, ref('hr_custom.group_restrict_work_number'))]"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="employee_document_rule" model="ir.rule">
+            <field name="name">Employee Document By Company</field>
+            <field ref="model_hr_employee_document" name="model_id"/>
+            <field name="domain_force">['|',('company_id', '=',False),('company_id', '=',user.company_id.id)]</field>
+            <field name="groups" eval="[(4, ref('hr_custom.group_restrict_employee_document'))]"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+    </data>
+</odoo>

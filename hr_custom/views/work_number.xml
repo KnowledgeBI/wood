@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="work_number_view_tree" model="ir.ui.view">
+            <field name="name">hr.employee.number.tree</field>
+            <field name="model">hr.employee.number</field>
+            <field name="priority">10</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="employee_id"/>
+                    <field name="company_id"/>
+                    <field name="number"/>
+                    <field name="carrier"/>
+                    <field name="type"/>
+                    <field name="date"/>
+                    <field name="current_no"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id='work_number_view_search' model='ir.ui.view'>
+            <field name='name'>hr.employee.number.search</field>
+            <field name='model'>hr.employee.number</field>
+            <field name='arch' type='xml'>
+                <search string=''>
+                    <field name="employee_id"/>
+                    <group string='Group By'>
+                        <filter name='by_employee' string='Employee' context="{'group_by': 'employee_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="work_number_window_action" model="ir.actions.act_window">
+            <field name="name">Work Number</field>
+            <field name="res_model">hr.employee.number</field>
+            <field name="view_mode">tree,form,search</field>
+            <field name="target">current</field>
+        </record>
+
+
+        <menuitem id="work_number_menu"
+                  name="Employee Work Number"
+                  parent="hr.menu_hr_reporting_timesheet"
+                  action="work_number_window_action"
+                  sequence="1"/>
+
+    </data>
+</odoo>

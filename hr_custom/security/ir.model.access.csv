@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_job_title,access_hr_job_title,model_hr_job_title,,1,1,1,1
+access_hr_qualification,access_hr_qualification,model_hr_qualification,,1,1,1,1
+access_hr_employee_number,access_hr_employee_number,model_hr_employee_number,,1,1,1,1
+access_work_number_operating_type,access_work_number_operating_type,model_work_number_operating_type,,1,1,1,1
+access_transfer_track,access_transfer_track,model_transfer_track,,1,1,1,1
+access_social_insurance_type,access_social_insurance_type,model_social_insurance_type,,1,1,1,1
+access_hr_study_field,access_hr_study_field,model_hr_study_field,,1,1,1,1
+access_hr_study_school,access_study_hr_school,model_hr_study_school,,1,1,1,1
+access_employee_atm,access_employee_atm,model_employee_atm,base.group_user,1,1,1,1
+access_religion_religion,access_religion_religion,model_religion_religion,base.group_user,1,1,1,1

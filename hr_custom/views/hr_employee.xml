@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="view_employee_inherit1_form" model="ir.ui.view">
+            <field name="name">hr.employee.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <button name="action_resignation" string="Resignation" class="oe_highlight"
+                                states="at_work"
+                                type="object"/>
+                        <button name="action_ending_service" string="Ending Service" class="oe_highlight"
+                                states="at_work"
+                                type="object"/>
+                        <button name="action_leaving_work" string="Leaving Work" class="oe_highlight"
+                                states="at_work"
+                                type="object"/>
+                        <button name="action_death" string="Death" class="oe_highlight"
+                                states="at_work"
+                                type="object"/>
+                        <button name="action_at_work" string="Rejoin" class="oe_highlight"
+                                states="resignation,ending_service,leaving_work,death"
+                                type="object"/>
+                        <button name="action_atm" string="ATM" class="oe_highlight"
+                                states="at_work"
+                                type="object"/>
+                        <button name="%(hr_custom.transfer_track_wizard)d"
+                                string="Transfer"
+                                class="oe_highlight"
+                                states="at_work"
+                                context="{'default_employee_id':id}"
+                                type="action"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_colors="{'KEY_IS_STATE':'VALUE_IS_COLOR'}"/>
+                    </header>
+                </xpath>
+                <xpath expr="//h1" position="after">
+                    <h1 class="d-flex">
+                        <field name="arabic_name" placeholder="Employee's Arabic Name"/>
+                    </h1>
+                </xpath>
+                <xpath expr="//page[@name='personal_information']/group" position="inside">
+                    <group string="Religion">
+                        <field name="religion"/>
+                    </group>
+                    <group string="Info">
+                        <field name="collar_workers"/>
+                        <field name="military_state"/>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='department_id']" position="after">
+                    <field name="section_id" domain="[('is_section', '=', True)]"
+                           context="{'default_is_section': True}"/>
+<!--                    <field name="sector_id"/>-->
+                </xpath>
+                <xpath expr="//field[@name='identification_id']" position="after">
+                    <field name="identification_start_date"/>
+                    <field name="identification_end_date"/>
+                </xpath>
+                <xpath expr="//field[@name='address_home_id']" position="after">
+                    <field name="state_id"/>
+                </xpath>
+
+                <xpath expr="//notebook/page[@name='public']/div/div" position="inside">
+                    <group name="general_info" string="General Info">
+                        <field name="code"/>
+                        <field name="analytic_account_id" groups="analytic.group_analytic_accounting"/>
+                        <field name="is_special_need"/>
+                    </group>
+                </xpath>
+
+                <xpath expr="//field[@name='certificate']" position="after">
+                    <field name="certificate_year"/>
+                </xpath>
+                <xpath expr="//page[last()]" position="after">
+                    <page string="Insurance">
+                        <group>
+                            <field name="currency_id" invisible="1"/>
+                            <label for="insured"/>
+                            <div class="o_row">
+                                <field name="insured"/>
+                            </div>
+                            <group string="Private Medical Insurance" attrs="{'invisible':[('insured','=',False)]}">
+                                <!--                                <field name="medic_exam" string="Medical Exam"/>-->
+                                <field name="insurance_level"/>
+                            </group>
+                            <group string="Governmental Medical Insurance"
+                                   attrs="{'invisible':[('insured','=',False)]}">
+                                <field name="governmental_card_number"/>
+                                <field name="full_insurance_id"/>
+                            </group>
+                            <group string="Social Insurance"
+                                   attrs="{'invisible':[('insured','=',False)]}">
+                                <field name="social_insurance_id"/>
+                                <field name="social_join_date"/>
+                                <field name="social_insurance_amount"/>
+                                <field name="social_insurance_type_id"/>
+                                <field name="actual_social_insurance_amount"/>
+                            </group>
+
+                        </group>
+                    </page>
+                    <page string="Work Numbers">
+                        <field name="number_ids">
+                            <tree editable="top">
+                                <field name="number"/>
+                                <field name="carrier"/>
+                                <field name="type"/>
+                                <field name="operating_type_id"
+                                       domain="[('carrier','=',carrier),('type','=',type)]"
+                                       context="{'default_carrier':carrier,'default_type':type}"/>
+                                <field name="date"/>
+                                <field name="current_no"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Transfer Tracking" name="transfer_tracking">
+                        <field name="transfer_tracing_ids" readonly="1"/>
+                    </page>
+                </xpath>
+
+                <xpath expr="//field[@name='job_id']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                    <attribute name="force_save">1</attribute>
+                </xpath>
+                <!--                <xpath expr="//field[@name='google_drive_link']" position="attributes">-->
+                <!--                    <attribute name="invisible">1</attribute>-->
+                <!--                </xpath>-->
+
+                <xpath expr="//field[@name='country_of_birth']" position="after">
+                    <field name="age"/>
+                    <field name="retirement_date"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Inherit Form View to Modify it -->
+        <!--        <record id="hr_hr_employee_view_form2" model="ir.ui.view">-->
+        <!--            <field name="name">hr.employee.form</field>-->
+        <!--            <field name="model">hr.employee</field>-->
+        <!--            <field name="inherit_id" ref="hr_contract.hr_hr_employee_view_form2"/>-->
+        <!--            <field name="arch" type="xml">-->
+
+        <!--                <xpath expr="//field[@name='medic_exam']" position="attributes">-->
+        <!--                    <attribute name="invisible">1</attribute>-->
+        <!--                </xpath>-->
+
+        <!--            </field>-->
+        <!--        </record>-->
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="view_employee_filter" model="ir.ui.view">
+            <field name="name">hr.employee.search</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_filter"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="barcode"/>
+                    <field name="identification_id"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="employee_insurance_view_tree" model="ir.ui.view">
+            <field name="name">hr.employee.tree</field>
+            <field name="model">hr.employee</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="full_insurance_id"/>
+                    <field name="social_insurance_id"/>
+                    <field name="social_insurance_type_id"/>
+                    <field name="actual_social_insurance_amount"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="employee_insurance_action" model="ir.actions.act_window">
+            <field name="name">Employees Insurance</field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_mode">tree,form,search</field>
+            <field name="context">{}</field>
+            <field name="view_id" eval="employee_insurance_view_tree"/>
+        </record>
+
+        <menuitem id="insurance_report_menu"
+                  name="Insurance Report"
+                  parent="hr.menu_hr_reporting_timesheet"
+                  action="employee_insurance_action"
+                  sequence="20"/>
+
+    </data>
+</odoo>
