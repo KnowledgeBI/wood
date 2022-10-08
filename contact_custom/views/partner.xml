@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_partner_property_form" model="ir.ui.view">
+            <field name="name">res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="account.view_partner_property_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='property_account_receivable_id']" position="attributes">
+                    <attribute name="domain">[('company_id', '=', current_company_id)]</attribute>
+                </xpath>
+                <xpath expr="//field[@name='property_account_payable_id']" position="attributes">
+                    <attribute name="domain">[('company_id', '=', current_company_id)]</attribute>
+                </xpath>
+
+                <xpath expr="//group[@name='fiscal_information']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+
+                </xpath>
+            </field>
+        </record>
+        <record id="view_partner_form" model="ir.ui.view">
+            <field name="name">res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='vat']" position="attributes">
+                    <attribute name="invisible">1
+                    </attribute>
+                </xpath>
+
+                <xpath expr="//page[last()]" position="after">
+                    <page string="Tax">
+                        <group>
+                            <group string="VAT" attrs="{'invisible': [('company_type','!=','company')]}">
+                                <field name="vat" attrs="{
+                        'readonly': [('parent_id','!=',False)],
+                        'invisible':[('is_company','=',False)],
+                        'required':[('is_company','=',True),('mark_as_not_required','=',False)],
+                        }"/>
+                                <field name="tax_id_expiry"
+                                       attrs="{'invisible': [('company_type','!=','company')], 'required': [('company_type','=','company')]}"/>
+                                <field name="tax_file"
+                                       attrs="{'invisible': [('company_type','!=','company')]}"/>
+                                <field name="tax_department_id"
+                                       attrs="{'required': [('mark_as_not_required','=',False),('company_type','=','company')],'invisible': [('company_type','!=','company')]}"/>
+                                <field name="tax_card" widget="many2many_binary"
+                                       attrs="{'required': [('mark_as_not_required','=',False),('company_type','=','company')],'invisible': [('company_type','!=','company')]}"/>
+                                <field name="filename3" invisible="1"/>
+                            </group>
+                            <group string="Witholding">
+                                <field name="national_id"
+                                       attrs="{'invisible': [('company_type','!=','person')]}"/>
+                                <field name="face_national_file" widget="binary" filename="Face National ID"
+                                       attrs="{'invisible': [('company_type','!=','person')]}"/>
+                                <field name="back_national_file" widget="binary" filename="Back National ID"
+                                       attrs="{'invisible': [('company_type','!=','person')]}"/>
+                                <field name="filename1" invisible="1"/>
+
+                                <field name="commercial_no"
+                                       attrs="{'required': [('mark_as_not_required','=',False),('company_type','=','company')],'invisible': [('company_type','!=','company')]}"/>
+                                <field name="commercial_reg" widget="many2many_binary"
+                                       attrs="{'required': [('mark_as_not_required','=',False),('company_type','=','company')],'invisible': [('company_type','!=','company')]}"/>
+
+                                <field name="commercial_reg_expiry"
+                                       attrs="{'invisible': [('company_type','!=','company')], 'required': [('company_type','=','company')]}"/>
+                                <field name="filename2" invisible="1"/>
+
+
+                                <field name="other_attachment_ids" widget="many2many_binary" options="{'no_create':0}"
+                                       attrs="{'invisible': [('company_type','!=','company')]}"/>
+                            </group>
+                            <group string="Industry" attrs="{'invisible': [('is_company', '=', False)]}">
+                                <field name="industry_id" attrs="{'required':
+                        [('mark_as_not_required','=',False),('company_type','=','company')],'invisible': [('is_company', '=', False)]}"/>
+                                <field name="property_account_position_id" attrs="{'required':
+                        [('mark_as_not_required','=',False),('company_type','=','company')]}"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+                <!--                <xpath expr="//field[@name='vat']" position="after">-->
+
+
+                <!--                </xpath>-->
+                <xpath expr="//field[@name='type']" position="after">
+                    <field name="arabic_name" attrs="{'required':[('mark_as_not_required','=',False),('company_type','=','company')]}"/>
+                    <field name="code" readonly="1" force_save="1"/>
+                </xpath>
+                <xpath expr="//field[@name='mobile']" position="attributes">
+                    <attribute name="attrs">{'required':
+                        [('mark_as_not_required','=',False),('company_type','=','person')]}
+                    </attribute>
+                </xpath>
+                <xpath expr="//field[@name='function']" position="attributes">
+                    <attribute name="attrs">
+                        {'invisible':
+                        [('is_company','=', True)]}
+                    </attribute>
+                </xpath>
+
+<!--                <xpath expr="//field[@name='phone']" position="attributes">-->
+<!--                    <attribute name="attrs">{'required':-->
+<!--                        [('mark_as_not_required','=',False),('company_type','=','company')]}-->
+<!--                    </attribute>-->
+<!--                </xpath>-->
+                <xpath expr="//field[@name='email']" position="attributes">
+                    <attribute name="attrs">{'required':
+                        [('mark_as_not_required','=',False),('company_type','=','company')]}
+                    </attribute>
+                </xpath>
+                <xpath expr="//field[@name='industry_id']" position="attributes">
+                    <attribute name="invisible">1
+                    </attribute>
+
+                </xpath>
+                <xpath expr="//field[@name='category_id']" position="after">
+                    <field name="type_id" attrs="{'required': [('mark_as_not_required','=',False)]}"/>
+                    <field name="old_code"/>
+                    <field name="mark_as_not_required" invisible="0"
+                           groups="contact_custom.mark_contact_fields_required_group"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_partner_expiry_form" model="ir.ui.view">
+            <field name="name">res.partner.expiry.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="priority">1000</field>
+            <field name="groups_id" eval="[(4,ref('contact_custom.contact_tax_expiry_date_group'))]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='tax_id_expiry']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('company_type','!=','company')], 'required': False}
+                    </attribute>
+                </xpath>
+                <xpath expr="//field[@name='commercial_reg_expiry']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('company_type','!=','company')], 'required': False}
+                    </attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="partner_type_view_form" model="ir.ui.view">
+            <field name="name">partner.type.form</field>
+            <field name="model">partner.type</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="prefix"/>
+                            <field name="sequence_id" readonly="1"/>
+                            <field name="category_ids" widget="many2many_tags"/>
+                            <field name="is_employee"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="partner_type_view_tree" model="ir.ui.view">
+            <field name="name">partner.type.tree</field>
+            <field name="model">partner.type</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="prefix"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="partner_type_window_action" model="ir.actions.act_window">
+            <field name="name">Partner Type</field>
+            <field name="res_model">partner.type</field>
+            <field name="view_mode">tree,form,search</field>
+            <field name="target">current</field>
+        </record>
+
+        <menuitem id="partner_type_menu"
+                  name="Partner Type"
+                  parent="contacts.res_partner_menu_config"
+                  action="partner_type_window_action"
+                  sequence="20"/>
+    </data>
+</odoo>

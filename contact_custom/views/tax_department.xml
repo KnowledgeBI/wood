@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="view_tax_department_form" model="ir.ui.view">
+            <field name="name">view.tax.department.form</field>
+            <field name="model">tax.department</field>
+            <field name="arch" type="xml">
+                <form string="Tax Department">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="code"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_tax_department_tree" model="ir.ui.view">
+            <field name="name">view.tax.department.tree</field>
+            <field name="model">tax.department</field>
+            <field name="arch" type="xml">
+                <tree string="Tax Departments">
+                    <field name="name"/>
+                    <field name="code"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_tax_department" model="ir.actions.act_window">
+            <field name="name">Tax Departments</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">tax.department</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_tax_department"
+                  name="Tax Departments" parent="account.account_management_menu"
+                  action="action_tax_department" sequence="100"/>
+    </data>
+</odoo>

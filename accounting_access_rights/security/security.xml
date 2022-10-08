@@ -1,0 +1,32 @@
+<data>
+    <record id="group_post_customer_invoices" model="res.groups">
+        <field name="name">Post Customer Invoices</field>
+<!--        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>-->
+    </record>
+
+    <record id="group_post_vendor_bill" model="res.groups">
+        <field name="name">Post Vendor Bill</field>
+<!--        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>-->
+    </record>
+
+    <record id="group_post_journal_entry" model="res.groups">
+        <field name="name">Post Journal Entry</field>
+<!--        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>-->
+    </record>
+
+    <record id="group_cancel_journal_entry" model="res.groups">
+        <field name="name">Cancel Journal Entry</field>
+<!--        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>-->
+    </record>
+
+    <record id="group_set_to_draft_journal_entry" model="res.groups">
+        <field name="name">Set To Draft Journal Entry</field>
+<!--        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>-->
+    </record>
+
+    <record id="group_create_chart_of_account" model="res.groups">
+        <field name="name">Create Account On Chart Of Account</field>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+
+</data>

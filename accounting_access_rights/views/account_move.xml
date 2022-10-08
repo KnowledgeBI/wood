@@ -1,0 +1,43 @@
+<data>
+    <record id="inherit_account_move_form" model="ir.ui.view">
+        <field name="name">inherit.account.move.form</field>
+        <field name="model">account.move</field>
+        <!--<field name="groups_id" eval="[(4, ref(''))]"/>-->
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='button_cancel'][1]" position="attributes">
+                <attribute name="groups">accounting_access_rights.group_cancel_journal_entry</attribute>
+            </xpath>
+            <xpath expr="//button[@name='button_cancel'][2]" position="attributes">
+                <attribute name="groups">accounting_access_rights.group_cancel_journal_entry</attribute>
+            </xpath>
+
+            <xpath expr="//button[@name='button_cancel'][2]" position="attributes">
+                <attribute name="groups">accounting_access_rights.group_cancel_journal_entry</attribute>
+            </xpath>
+
+            <xpath expr="//button[@name='button_draft']" position="attributes">
+                <attribute name="groups">accounting_access_rights.group_set_to_draft_journal_entry</attribute>
+            </xpath>
+
+            <xpath expr="//button[@name='action_post'][1]" position="attributes">
+                <attribute name="groups">accounting_access_rights.group_post_journal_entry</attribute>
+            </xpath>
+
+            <xpath expr="//button[@name='action_post'][2]" position="attributes">
+                <attribute name="groups">accounting_access_rights.group_post_customer_invoices</attribute>
+                <attribute name="attrs">{'invisible': ['|', '|', '|', ('state', '!=', 'draft'),
+                    ('auto_post', '=', True), ('move_type', 'in', ['entry','in_invoice','in_refund','in_receipt'])
+                    , ('display_inactive_currency_warning','=',True)]}</attribute>
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <button name="action_post" string="Confirm" class="oe_highlight"
+                        type="object" groups="accounting_access_rights.group_post_vendor_bill" data-hotkey="v"
+                        attrs="{'invisible': ['|', '|', '|', ('state', '!=', 'draft'),
+                         ('auto_post', '=', True), ('move_type', 'in', ['entry','out_invoice','out_refund','out_receipt'])
+                         , ('display_inactive_currency_warning','=',True)]}"/>
+            </xpath>
+
+        </field>
+    </record>
+</data>

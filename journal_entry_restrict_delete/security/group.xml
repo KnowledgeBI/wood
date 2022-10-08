@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="group_force_journal_entry_deletion" model="res.groups">
+            <field name="name">Force Journal Entry Deletion</field>
+        </record>
+
+    </data>
+</odoo>

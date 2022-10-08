@@ -1,0 +1,39 @@
+<data>
+    <record id="group_restrict_journal" model="res.groups">
+        <field name="name">Journal Restriction</field>
+    </record>
+
+    <record id="filter_user_journal_allowed_new" model="ir.rule">
+        <field name="name">Filter Allowed Journals</field>
+        <field name="model_id" search="[('model','=','account.journal')]" model="ir.model"/>
+        <field name="groups" eval="[(4, ref('group_restrict_journal'))]"/>
+        <field name="domain_force">[('id','in', [ p.id for p in user.allowed_journal_ids ])]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="filter_user_account_payment_allowed_new" model="ir.rule">
+        <field name="name">Filter Account Payment With Allowed Journal</field>
+        <field name="model_id" search="[('model','=','account.payment')]" model="ir.model"/>
+        <!--        <field name="groups" eval="[(4, ref('group_restrict_journal'))]"/>-->
+        <field name="domain_force">[('journal_id','in', [ p.id for p in user.allowed_journal_ids ])]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="filter_user_account_move_allowed_new" model="ir.rule">
+        <field name="name">Filter Journal Entry With Allowed Journal no</field>
+        <field name="model_id" search="[('model','=','account.move')]" model="ir.model"/>
+<!--        <field name="groups" eval="[(4, ref('group_restrict_journal'))]"/>-->
+        <field name="domain_force">[('journal_id','in', [ p.id for p in user.allowed_journal_ids])]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+</data>

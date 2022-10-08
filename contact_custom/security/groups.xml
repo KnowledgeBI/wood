@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record id="mark_contact_fields_required_group" model="res.groups">
+            <field name="name">Mark Contact Fields As Not Required</field>
+        </record>
+        <record id="contact_tax_expiry_date_group" model="res.groups">
+            <field name="name">Contact Tax/Commercial Expiry Date Not Required</field>
+        </record>
+
+    </data>
+</odoo>

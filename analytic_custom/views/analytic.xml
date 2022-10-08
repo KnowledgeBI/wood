@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="view_account_analytic_account_form" model="ir.ui.view">
+            <field name="name">account.analytic.account.form</field>
+            <field name="model">account.analytic.account</field>
+            <field name="inherit_id" ref="analytic.view_account_analytic_account_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='code']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                    <attribute name="force_save">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="type"/>
+                </xpath>
+                <xpath expr="//field[@name='currency_id']" position="after">
+                    <field name="old_ref"/>
+                </xpath>
+                <xpath expr="//sheet" position="inside">
+                    <notebook>
+                        <page string="Project Info" name="project_info" attrs="{'invisible': [('type', '!=', 'project')]}">
+                            <group name="main">
+                                <group>
+                                    <field name="contract_date"/>
+                                    <field name="start_date"/>
+                                    <field name="end_date"/>
+                                    <field name="analytic_status_id"/>
+                                    <field name="analytic_priority_id"/>
+                                </group>
+                                <group>
+                                    <field name="contract_amount"/>
+                                    <field name="estimated_cost"/>
+                                    <field name="actual_cost"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>
