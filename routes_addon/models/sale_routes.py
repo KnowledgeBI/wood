@@ -17,22 +17,7 @@ class SaleRoute(models.Model):
     name = fields.Char()
     date_from = fields.Date()
     date_to = fields.Date()
-    date = fields.Date()
-    vehicle_id = fields.Many2one(
-        'fleet.vehicle'
-    )
-    driver_id = fields.Many2one(
-        'hr.employee',
-        default=lambda self:self.env['hr.employee'].search(
-        [('user_id', '=', self.env.uid)], limit=1),
-    )
-    state = fields.Selection(
-        [('draft', 'Draft'),
-         ('validate', 'Validated'),
-         ('cancel', 'Cancel')],
-        default='draft',
-        string='Status'
-    )
+
     # create_uid = fields.Many2one(
     #     'res.users',
     #     string='Responsible'
@@ -41,19 +26,14 @@ class SaleRoute(models.Model):
         'route.line',
         'sale_route_id'
     )
-    # quotation_created = fields.Boolean()
-    partner_id = fields.Many2one(
-        'res.partner',
-        'Customer'
-    )
 
-    @api.constrains('date')
-    def _check_date(self):
-        """ Validate date """
-        for rec in self:
-            if rec.date_from and rec.date_to:
-                if rec.date < rec.date_from or rec.date > rec.date_to:
-                    raise ValidationError('Date must be in the range !')
+    state = fields.Selection(
+        [('draft', 'Draft'),
+         ('validate', 'Validated'),
+         ('cancel', 'Cancel')],
+        default='draft',
+        string='Status'
+    )
 
     @api.model
     def create(self, vals_list):
@@ -75,23 +55,6 @@ class SaleRoute(models.Model):
         for rec in self:
             rec.state = 'cancel'
 
-    def create_quotation(self):
-        """ Create Quotation """
-        order = self.env['sale.order'].sudo().create({
-            'date_order': self.date,
-            'partner_id': self.partner_id.id,
-            'route_id': self.id,
-            'responsible_id': self.create_uid.id,
-        })
-        if self.route_line_ids:
-            for line in self.route_line_ids:
-                order = self.env['sale.order.line'].sudo().create({
-                    'order_id': order.id,
-                    'product_id': line.product_id.id,
-                    'price_unit': line.price_unit,
-                    'product_uom_qty': line.qty,
-                })
-
 
 class RouteLine(models.Model):
     """
@@ -104,8 +67,47 @@ class RouteLine(models.Model):
     sale_route_id = fields.Many2one(
         'sale.route'
     )
-    product_id = fields.Many2one(
-        'product.product'
+    date = fields.Date()
+    vehicle_id = fields.Many2one(
+        'fleet.vehicle'
     )
-    qty = fields.Float()
-    price_unit = fields.Float()
+    driver_id = fields.Many2one(
+        'hr.employee',
+        default=lambda self:self.env['hr.employee'].search(
+            [('user_id', '=', self.env.uid)], limit=1),
+    )
+    quotation_created = fields.Boolean(
+        copy=False
+    )
+    partner_id = fields.Many2one(
+        'res.partner',
+        'Customer'
+    )
+    state_id = fields.Many2one(
+        'res.country.state', 
+    )
+    city = fields.Char()
+    
+    @api.constrains('date')
+    def _check_date(self):
+        """ Validate date """
+        for rec in self:
+            if rec.sale_route_id.date_from and rec.sale_route_id.date_to:
+                if rec.date < rec.sale_route_id.date_from or rec.date > rec.sale_route_id.date_to:
+                    raise ValidationError('Date must be in the range !')
+
+    def create_quotation(self):
+        """ Create Quotation """
+        order = self.env['sale.order'].sudo().create({
+            'date_order': self.date,
+            'partner_id': self.partner_id.id,
+            'route_id': self.sale_route_id.id,
+            'route_line_id': self.id,
+            'responsible_id': self.create_uid.id,
+        })
+        if self.vehicle_id.warehouse_id:
+            order.update({
+                'warehouse_id': self.vehicle_id.warehouse_id.id
+            })
+        self.quotation_created = True
+

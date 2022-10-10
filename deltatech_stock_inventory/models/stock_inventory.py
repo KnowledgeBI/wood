@@ -91,6 +91,23 @@ class Inventory(models.Model):
         states={"draft": [("readonly", False)]},
         help="Include also products with quantity of 0",
     )
+    total_shortage_amount = fields.Float(
+        compute='_compute_total_shortage_amount'
+    )
+    total_inventory_amount = fields.Float(
+        compute='_compute_total_shortage_amount'
+    )
+
+    @api.depends('line_ids')
+    def _compute_total_shortage_amount(self):
+        """ Compute total_shortage_amount value """
+        for rec in self:
+            if rec.line_ids:
+                rec.total_shortage_amount = sum(rec.line_ids.mapped('shortage_amount'))
+                rec.total_inventory_amount = sum(rec.line_ids.mapped('inventory_amount'))
+            else:
+                rec.total_shortage_amount = 0
+                rec.total_inventory_amount = 0
 
     @api.onchange("company_id")
     def _onchange_company_id(self):
@@ -502,6 +519,31 @@ class InventoryLine(models.Model):
     outdated = fields.Boolean(string="Quantity outdated", compute="_compute_outdated", search="_search_outdated")
     product_tracking = fields.Selection(string="Tracking", related="product_id.tracking", readonly=True)
     quant_id = fields.Many2one("stock.quant")
+    shortage_amount = fields.Float(
+        compute='_compute_shortage_amount'
+    )
+    inventory_amount = fields.Float(
+        compute='_compute_inventory_amount'
+    )
+
+    @api.depends('difference_qty', 'standard_price')
+    def _compute_shortage_amount(self):
+        """ Compute  value """
+        for rec in self:
+            if rec.difference_qty or rec.standard_price:
+                rec.shortage_amount = rec.difference_qty * rec.standard_price
+            else:
+                rec.shortage_amount = 0
+
+    @api.depends('product_qty', 'standard_price')
+    def _compute_inventory_amount(self):
+        """ Compute  value """
+        for rec in self:
+            if rec.product_qty or rec.standard_price:
+                rec.inventory_amount = rec.product_qty * rec.standard_price
+            else:
+                rec.inventory_amount = 0
+
 
     @api.depends("product_qty", "theoretical_qty")
     def _compute_difference(self):

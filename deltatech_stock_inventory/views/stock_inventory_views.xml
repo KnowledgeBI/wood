@@ -82,7 +82,8 @@
                     attrs="{'invisible': [('outdated', '=', False)]}"
                 />
                 <field name="product_qty" width="0.5" string="Counted" />
-
+                <field name="shortage_amount" invisible="1"/>
+                <field name="inventory_amount" invisible="1"/>
 
                 <field name="difference_qty" optional="show" width="0.5" />
                 <field name="product_uom_id" string="UoM" groups="uom.group_uom" width="0.3" force_save="1" />
@@ -332,6 +333,8 @@
                                 widget="radio"
                                 attrs="{'invisible': [('state', '!=', 'draft')]}"
                             />
+                            <field name="total_shortage_amount"/>
+                            <field name="total_inventory_amount"/>
                         </group>
                     </group>
                     <field name="line_ids" />

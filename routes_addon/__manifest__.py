@@ -25,6 +25,7 @@
         'views/sale_order.xml',
         'views/sale_route.xml',
         'views/stock_picking.xml',
+        'views/fleet_vehicle.xml',
         'data/ir_sequence.xml',
     ],
     'demo': [
